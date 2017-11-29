@@ -24,5 +24,11 @@ namespace MyMusicBase
         {
             InitializeComponent( );
         }
+
+        private void User_Confurum_OnClick(object sender, RoutedEventArgs e)
+        {
+            //Подключение к базе данных
+           //TO DO
+        }
     }
 }
