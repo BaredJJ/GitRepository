@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MyMusicBase
 {
@@ -28,7 +17,22 @@ namespace MyMusicBase
         private void User_Confurum_OnClick(object sender, RoutedEventArgs e)
         {
             //Подключение к базе данных
-           //TO DO
+            SqlConnection instance = new SqlConnection(DataConnector.SqlStringBuilder(UserName.Text, Pasword.Password).ConnectionString);
+            try
+            {
+                instance.Open( );
+                Window startPage = new Window( );
+                startPage.Show( );
+                LoginWindow.Close( );
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Check you password or login");
+            }
+            finally
+            {
+                instance.Close( );
+            }
         }
     }
 }
