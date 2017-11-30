@@ -21,8 +21,9 @@ namespace MyMusicBase
             try
             {
                 instance.Open( );
-                Window startPage = new Window( );
-                startPage.Show( );
+                Window startPage = new StartPage();
+                instance.Close();
+                startPage.Show();
                 LoginWindow.Close( );
             }
             catch (Exception)

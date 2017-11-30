@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="StartPage" Height="300" Width="300">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
         
+        <TextBox Name="SearchBox" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="Что ищем" ></TextBox>
+        <TextBox Name ="Result" TextWrapping="Wrap"  Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></TextBox>
+        <Button Name ="Search" Grid.Row="5" Click="Search_OnClick">Search</Button>
     </Grid>
 </Window>
