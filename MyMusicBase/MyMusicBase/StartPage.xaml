@@ -5,19 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyMusicBase"
         mc:Ignorable="d"
-        Title="StartPage" Height="300" Width="300">
+        Title="StartPage" Height="300" Width="600">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+
+        <ComboBox Name="ChoiseOfSearch" Margin="5" SelectedIndex ="00">
+            <TextBlock Name="Artist" Text="Исполнитель"/>
+            <TextBlock Name="Style" Text="Жанр"/>
+            <TextBlock Name="Release" Text="Релиз"/>
+        </ComboBox>
+        <TextBox Name="SearchBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="Что ищем" Margin="5" />
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Жанр" Margin="2" TextAlignment="Center"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="Исполнитель" Margin="2" TextAlignment="Center"/>
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="Релиз" Margin="2" TextAlignment="Center"/>
+            
+            <TextBlock Name ="StyleText"  Grid.Column="0" Grid.Row="1" Margin="5" TextWrapping="Wrap" Background="AliceBlue"/>
+            <TextBlock Name ="ArtistText"  Grid.Column="1" Grid.Row="1" Margin="5" TextWrapping="Wrap" Background="Azure"/>
+            <TextBlock Name ="AlbumText"  Grid.Column="2" Grid.Row="1" Margin="5" TextWrapping="Wrap" Background="Beige"/>
+
+            
+        </Grid>
         
-        <TextBox Name="SearchBox" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="Что ищем" ></TextBox>
-        <TextBox Name ="Result" TextWrapping="Wrap"  Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></TextBox>
-        <Button Name ="Search" Grid.Row="5" Click="Search_OnClick">Search</Button>
+        
+        <Grid  Grid.Row="5" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name ="Search" Grid.Column="2" Click="Search_OnClick" Margin="5">Search</Button>
+        </Grid>
+
     </Grid>
 </Window>
