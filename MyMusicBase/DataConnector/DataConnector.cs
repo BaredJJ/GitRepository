@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using DataConnector;
 
 namespace MyMusicBase
 {
@@ -82,5 +84,66 @@ namespace MyMusicBase
             connection.Close( );
             return result;
         }
+
+
+        ///////////////////////////////////////////////////////////
+        /// //////////////////////////////////////////////////////////
+        /// 
+        /// ///////////////////////////////////////////////////////////
+        /// 
+        private static int GetInt<T>(T t)
+        {
+            int n;
+            if (!int.TryParse(t.ToString(), out n))
+                throw new FormatException();//TO DO Обработка события
+            return n;
+        }
+
+        private static DateTime GetData<T>(T t)
+        {
+            DateTime date;
+            if (!DateTime.TryParse(t.ToString(), out date))
+                throw new FormatException();//TO DO обработчик
+            return date;
+        }
+
+        //////////////////////////////////////
+
+        public static string GetString1(string searchName)
+        {
+            string temp = "";
+            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+            SqlCommand cmd = new SqlCommand(searchName, connection);
+            connection.Open( );
+            SqlDataReader reader = cmd.ExecuteReader( );
+            while (reader.Read( ))
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    temp += reader.GetString(i) + " ";
+                }
+            }
+            return temp;
+        }
+
+        public static List<string> GetList1(string searchName)
+        {
+            List<string> list = new List<string>();
+            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+            SqlCommand cmd = new SqlCommand(searchName, connection);
+            connection.Open( );
+            SqlDataReader reader = cmd.ExecuteReader( );
+            while (reader.Read( ))
+            {
+                string temp = "";
+                for (int i = 0; i < reader.FieldCount; ++i)
+                {
+                    temp += reader.GetString(i) + " ";
+                }
+                list.Add(temp);
+            }
+            return list;
+        }
+    
     }
 }

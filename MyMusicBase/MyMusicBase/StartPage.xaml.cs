@@ -99,5 +99,11 @@ namespace MyMusicBase
             }
             StyleText.Text = str.ToString( );
         }
+
+        private void AddButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            //TO DO Реализация добавления в БД
+            throw new System.NotImplementedException();
+        }
     }
 }

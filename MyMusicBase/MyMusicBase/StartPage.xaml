@@ -46,8 +46,8 @@
 
             
         </Grid>
-        
-        
+
+        <Button Name ="AddButton"  Grid.Row="2" Grid.Column="0" Margin="5" Click="AddButton_OnClick">Add</Button>
         <Grid  Grid.Row="5" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
