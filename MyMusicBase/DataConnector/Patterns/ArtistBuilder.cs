@@ -6,7 +6,15 @@ namespace DataConnector.Patterns
     {
         private List<List<string>> _data;
 
-        private static Artist BuildArtist(string name) => new Artist(MyMusicBase.DataConnector.GetString("SELECT * FROM Artist WHERE NAME = '" + name + "'"));
+        private static Artist BuildArtist(string name)
+        {
+            string artist = MyMusicBase.DataConnector.GetString("SELECT * FROM Artist WHERE NAME = '" + name + "'");
+            if (artist != "")
+            {
+                return new Artist(artist );
+            }
+            return new Artist();
+        }
 
         private static List<Albums> BuildAlbumses( int artistId )
         {
@@ -45,24 +53,27 @@ namespace DataConnector.Patterns
         {
             _data = new List<List<string>>();
             Artist name = BuildArtist(artist);
-            List<Albums> albums = BuildAlbumses(name.Id);
-            List<string> style = BuildStyles(BuildStyleList(name.Id));
-
-            string artString = name.Name + " " + name.Appearance.Year;
-            if (name.BreackUp.Year != 0)
-                artString += " - " + name.BreackUp.Year;
-            List<string> artList = new List<string>();
-            artList.Add(artString);
-
-            List<string> albList = new List<string>();
-            for (int i = 0; i < albums.Count; ++i)
+            if (name.Name != null)
             {
-                string temp = albums[i].Name + " " + albums[i].DateRelease.Year;
-                albList.Add(temp);
+                List<Albums> albums = BuildAlbumses(name.Id);
+                List<string> style = BuildStyles(BuildStyleList(name.Id));
+
+                string artString = name.Name + " " + name.Appearance.Year;
+                if (name.BreackUp.Year != 0)
+                    artString += " - " + name.BreackUp.Year;
+                List<string> artList = new List<string>();
+                artList.Add(artString);
+
+                List<string> albList = new List<string>();
+                for (int i = 0; i < albums.Count; ++i)
+                {
+                    string temp = albums[i].Name + " " + albums[i].DateRelease.Year;
+                    albList.Add(temp);
+                }
+                _data.Add(artList);
+                _data.Add(style);
+                _data.Add(albList);
             }
-            _data.Add(artList);
-            _data.Add(style);
-            _data.Add(albList);
 
             return _data;
         }

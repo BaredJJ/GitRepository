@@ -6,8 +6,13 @@ namespace DataConnector.Patterns
     {
         private List<List<string>> _data;
 
-        private static Style BuildStyles(string name ) 
-            => new Style(MyMusicBase.DataConnector.GetString("SELECT * FROM Style WHERE Name = '" + name + "'"));
+        private static Style BuildStyles(string name )
+        {
+            string style = MyMusicBase.DataConnector.GetString("SELECT * FROM Style WHERE Name = '" + name + "'");
+            if (style != "")
+             return new Style();
+            return new Style();
+        }
 
         private static List<int> BuildStyleList(int styleId )
         {
@@ -37,20 +42,23 @@ namespace DataConnector.Patterns
         {
             _data = new List<List<string>>( );
             Style style = BuildStyles(option );
-            List<Artist> artist = BuildArtist(BuildStyleList(style.StyleId ));
-
-            List<string> artList = new List<string>();
-            for (int i = 0; i < artist.Count; ++i)
+            if (style.Name != null)
             {
-                string artistString = artist[i].Name + " " + artist[i].Appearance.Year;
-                if (artist[i].BreackUp.Year != 0)
-                    artistString += " - " + artist[i].BreackUp.Year;
-                artList.Add(artistString);
+                List<Artist> artist = BuildArtist(BuildStyleList(style.StyleId));
+
+                List<string> artList = new List<string>();
+                for (int i = 0; i < artist.Count; ++i)
+                {
+                    string artistString = artist[i].Name + " " + artist[i].Appearance.Year;
+                    if (artist[i].BreackUp.Year != 0)
+                        artistString += " - " + artist[i].BreackUp.Year;
+                    artList.Add(artistString);
+                }
+                List<string> styleList = new List<string>();
+                styleList.Add(style.Name);
+                _data.Add(artList);
+                _data.Add(styleList);
             }
-            List<string> styleList = new List<string>();
-            styleList.Add(style.Name);
-            _data.Add(artList);
-            _data.Add(styleList);
             return _data;
         }
     }

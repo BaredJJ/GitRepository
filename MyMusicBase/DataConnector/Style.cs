@@ -24,11 +24,5 @@ namespace DataConnector
             }
             else throw new Exception("Can't create instance Style");
         }
-
-        public Style(int styleId, string name)
-        {
-            _styleId = styleId;
-            _name = name;
-        }
     }
 }

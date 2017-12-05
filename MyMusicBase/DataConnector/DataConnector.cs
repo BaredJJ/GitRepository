@@ -11,76 +11,107 @@ namespace MyMusicBase
         //Создание экземпляра класса StringBuilder для подключения к БД
         public static SqlConnectionStringBuilder SqlStringBuilder(string name, string pasword)
         {
-            var connection = new SqlConnectionStringBuilder
+            try
             {
-                DataSource = @".\SQLEXPRESS",
-                InitialCatalog = "MyMusic",
-                UserID = name,
-                Password = pasword,
-                Pooling = true
-            };
-            Connection = connection;
-            return connection;
+                var connection = new SqlConnectionStringBuilder
+                {
+                    DataSource = @".\SQLEXPRESS",
+                    InitialCatalog = "MyMusic",
+                    UserID = name,
+                    Password = pasword,
+                    Pooling = true
+                };
+                Connection = connection;
+                return connection;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
       
         public static int GetInt<T>(T t)
         {
-            int n;
-            if (!int.TryParse(t.ToString(), out n))
-                throw new FormatException();//TO DO Обработка события
-            return n;
+            try
+            {
+                int n;
+                if (!int.TryParse(t.ToString(), out n))
+                    throw new FormatException();//TO DO Обработка события
+                return n;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public static DateTime GetData<T>(T t)
         {
-            DateTime date;
-            if (!DateTime.TryParse(t.ToString(), out date))
-                throw new FormatException();//TO DO обработчик
-            return date;
+            try
+            {
+                DateTime date;
+                if (!DateTime.TryParse(t.ToString(), out date))
+                    throw new FormatException();//TO DO обработчик
+                return date;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public static string GetString(string searchName)
         {
-            string temp = "";
-            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(searchName, connection);
-            connection.Open( );
-            cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-            SqlDataReader reader = cmd.ExecuteReader( );
-            while (reader.Read( ))
+            try
             {
-                for (int i = 0; i < reader.FieldCount; i++)
+                string temp = "";
+                SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+                SqlCommand cmd = new SqlCommand(searchName, connection);
+                connection.Open( );
+                cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+                SqlDataReader reader = cmd.ExecuteReader( );
+                while (reader.Read( ))
                 {
-                    if (!reader.IsDBNull(i))
-                        temp += reader[i] + "@@@";
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        if (!reader.IsDBNull(i))
+                            temp += reader[i] + "@@@";
+                    }
                 }
+                return temp;
             }
-            if (temp == "")
-                throw new Exception("In data base don't have that data");
-            return temp;
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public static List<string> GetList(string searchName)
         {
-            List<string> list = new List<string>();
-            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(searchName, connection);
-            connection.Open( );
-            cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-            SqlDataReader reader = cmd.ExecuteReader( );
-            while (reader.Read( ))
+            try
             {
-                string temp = "";
-                for (int i = 0; i < reader.FieldCount; ++i)
+                List<string> list = new List<string>();
+                SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+                SqlCommand cmd = new SqlCommand(searchName, connection);
+                connection.Open( );
+                cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+                SqlDataReader reader = cmd.ExecuteReader( );
+                while (reader.Read( ))
                 {
-                    if (!reader.IsDBNull(i))
-                        temp += reader[i] + "@@@";
+                    string temp = "";
+                    for (int i = 0; i < reader.FieldCount; ++i)
+                    {
+                        if (!reader.IsDBNull(i))
+                            temp += reader[i] + "@@@";
+                    }
+                    list.Add(temp);
                 }
-                list.Add(temp);
+                return list;
             }
-            if (list.Count == 0)
-                throw new Exception("In data base don't have that data");
-            return list;
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     
     }

@@ -6,9 +6,15 @@ namespace DataConnector.Patterns
     {
         private List<List<string>> _data;
 
-        private static Albums BuildAlbumses(string name) 
-            => new Albums(MyMusicBase.DataConnector.GetString("SELECT * FROM Albums WHERE NAME = '" + name + "'"));
-
+        private static Albums BuildAlbumses(string name)
+        {
+            string album = MyMusicBase.DataConnector.GetString("SELECT * FROM Albums WHERE NAME = '" + name + "'");
+            if (album != "")
+            {
+                return new Albums(album);
+            }
+            return new Albums();
+        }
 
         private static Artist BuildArtist( int artistId ) 
             => new Artist(MyMusicBase.DataConnector.GetString("SELECT * FROM Artist WHERE ArtistId = '" + artistId + "'"));
@@ -39,21 +45,24 @@ namespace DataConnector.Patterns
         {
             _data = new List<List<string>>( );
             Albums albums = BuildAlbumses( option);
-            Artist artist = BuildArtist( albums.ArtistId );
-            List<string> style = BuildStyles(BuildStyleList(albums.ArtistId) );
+            if (albums.Name != null)
+            {
+                Artist artist = BuildArtist(albums.ArtistId);
+                List<string> style = BuildStyles(BuildStyleList(albums.ArtistId));
 
-            string artistString = artist.Name + " " + artist.Appearance.Year;
-            if (artist.BreackUp.Year != 0)
-                artistString += " - " + artist.BreackUp.Year;
-            string albumsString = albums.Name + " " + albums.DateRelease.Year;
+                string artistString = artist.Name + " " + artist.Appearance.Year;
+                if (artist.BreackUp.Year != 0)
+                    artistString += " - " + artist.BreackUp.Year;
+                string albumsString = albums.Name + " " + albums.DateRelease.Year;
 
-            List<string> artList = new List<string>();
-            artList.Add(artistString);
-            List<string> albList = new List<string>();
-            albList.Add(albumsString);
-            _data.Add(artList);
-            _data.Add(style);
-            _data.Add(albList);
+                List<string> artList = new List<string>();
+                artList.Add(artistString);
+                List<string> albList = new List<string>();
+                albList.Add(albumsString);
+                _data.Add(artList);
+                _data.Add(style);
+                _data.Add(albList);
+            }
 
             return _data;
         }

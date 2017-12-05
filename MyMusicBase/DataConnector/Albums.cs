@@ -27,12 +27,5 @@ namespace DataConnector
             }
             else throw new Exception("Can't create instance Albums");
         }
-
-        public Albums(int artistId, string name, DateTime dateRelease)
-        {
-            _artistId = artistId;
-            _name = name;
-            _dateRelease = dateRelease;
-        }
     }
 }

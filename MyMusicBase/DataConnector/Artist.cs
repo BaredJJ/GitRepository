@@ -32,17 +32,5 @@ namespace DataConnector
             }
             else throw new Exception("Can't create instance Artist");
         }
-
-        public Artist(int id, string name, DateTime appearance)
-        {
-            _id = id;
-            _name = name;
-            _appearance = appearance;
-        }
-
-        public Artist(int id, string name, DateTime appearance, DateTime breackUp):this(id,name,appearance)
-        {
-            _breackUp = breackUp;
-        }
     }
 }
