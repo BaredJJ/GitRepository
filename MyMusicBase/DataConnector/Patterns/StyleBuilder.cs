@@ -3,32 +3,56 @@ using System.Collections.Generic;
 
 namespace DataConnector.Patterns
 {
-    class StyleBuilder:Builder
+    public class StyleBuilder:Builder
     {
-        private string[] _result;
+        private List<List<string>> _data = null;
 
-        private static Style BuildStyles( )
+        private static Style BuildStyles(string name ) 
+            => new Style(MyMusicBase.DataConnector.GetString1("SELECT * FROM Style WHERE Name = '" + name + "'"));
+
+        private static List<int> BuildStyleList(int styleId )
         {
-            throw new NotImplementedException( );
+            List<string> list =
+                MyMusicBase.DataConnector.GetList1("SELECT * FROM ArtistStyle WHERE StyleId = '" + styleId + "'");
+            List<int> artistId = new List<int>();
+            for (int i = 0; i < list.Count; ++i)
+            {
+                artistId.Add(new ArtistStyle(list[i]).ArtistId);
+            }
+            return artistId;
         }
 
-        private static List<ArtistStyle> BuildStyleList( )
+        private static List<Artist> BuildArtist(List<int> artistId)
         {
-            throw new NotImplementedException( );
+            List<Artist> artist = new List<Artist>();
+            for (int i = 0; i < artistId.Count; ++i)
+            {
+                string temp =
+                    MyMusicBase.DataConnector.GetString1("SELECT * FROM Artist WHERE ArtistId = '" + artistId[i] + "'");
+                artist.Add(new Artist(temp));
+            }
+            return artist;
         }
 
-        private static List<Artist> BuildArtist( )
+        public override List<List<string>> Create(string option)
         {
-            throw new NotImplementedException( );
-        }
+            _data = new List<List<string>>( );
+            Style style = BuildStyles(option );
+            List<Artist> artist = BuildArtist(BuildStyleList(style.StyleId ));
 
-        public override string[] Create( )
-        {
-            _result = new string[3];
-            BuildStyles( );
-            BuildStyleList( );
-            BuildArtist( );
-            return _result;
+            List<string> artList = new List<string>();
+            for (int i = 0; i < artist.Count; ++i)
+            {
+                string artistString = artist[i].Name + " " + artist[i].Appearance.Year;
+                if (artist[i].BreackUp.Year != 0)
+                    artistString += " - " + artist[i].BreackUp.Year;
+                artList.Add(artistString);
+            }
+            List<string> styleList = new List<string>();
+            styleList.Add(style.Name);
+            _data.Add(artList);
+            _data.Add(styleList);
+            return _data;
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace DataConnector.Patterns
 {
-    abstract class Builder
+    public abstract class Builder
     {
-        public abstract string[] Create();
+        public abstract List<List<string>> Create(string option);
     }
 }

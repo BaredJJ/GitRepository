@@ -1,41 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DataConnector.Patterns
 {
-    class ArtistBuilder:Builder
+    public class ArtistBuilder:Builder
     {
-        private string[] _result;
+        private List<List<string>> _data = null;
 
-        private static Artist BuildArtist()
+        private static Artist BuildArtist(string name) => new Artist(MyMusicBase.DataConnector.GetString1("SELECT * FROM Artist WHERE NAME = '" + name + "'"));
+
+        private static List<Albums> BuildAlbumses( int artistId )
         {
-
-            throw new NotImplementedException();
+            List<string> albums = MyMusicBase.DataConnector.GetList1("SELECT * FROM Albums WHERE ArtistId = '" + artistId + "'");
+            List<Albums> albumsList = new List<Albums>(albums.Count);
+            for (int i = 0; i < albums.Count; ++i)
+            {
+                albumsList.Add(new Albums(albums[i]));
+            }
+            return albumsList;
         }
 
-        private static List<AlbumsBuilder> BuildAlbumses( )
+        private static List<ArtistStyle> BuildStyleList(int artistId)
         {
-            throw new NotImplementedException( );
+            List<string> artistStyle =
+                MyMusicBase.DataConnector.GetList1("SELECT * FROM ArtistStyle WHERE ArtistId = '" + artistId + "'");
+            List<ArtistStyle> artistStyleList = new List<ArtistStyle>();
+            for (int i = 0; i < artistStyle.Count; ++i)
+            {
+                artistStyleList.Add(new ArtistStyle(artistStyle[i]));
+            }
+            return artistStyleList;
         }
 
-        private static List<ArtistStyle> BuildStyleList()
+        private static List<string> BuildStyles(List<ArtistStyle> artistStyles)
         {
-            throw new NotImplementedException();
+            List<string> styleList = new List<string>();
+            for (int i = 0; i < artistStyles.Count; ++i)
+            {
+               styleList.Add(new Style(MyMusicBase.DataConnector.GetString1("SELECT * FROM Style WHERE StyleId = '" + artistStyles[i].StyleId + "'")).Name);
+            }
+            return styleList;
         }
 
-        private static List<Style> BuildStyles()
+        public override List<List<string>> Create(string artist)
         {
-            throw new NotImplementedException();
-        }
+            _data = new List<List<string>>();
+            Artist name = BuildArtist(artist);
+            List<Albums> albums = BuildAlbumses(name.Id);
+            List<string> style = BuildStyles(BuildStyleList(name.Id));
 
-        public override string[] Create()
-        {
-            _result = new string[3];
-            BuildArtist();
-            BuildAlbumses();
-            BuildStyleList();
-            BuildStyles();
-            return _result;
+            string artString = name.Name + " " + name.Appearance.Year;
+            if (name.BreackUp.Year != 0)
+                artString += " - " + name.BreackUp.Year;
+            List<string> artList = new List<string>();
+            artList.Add(artString);
+
+            List<string> albList = new List<string>();
+            for (int i = 0; i < albums.Count; ++i)
+            {
+                string temp = albums[i].Name + " " + albums[i].DateRelease.Year;
+                albList.Add(temp);
+            }
+            _data.Add(artList);
+            _data.Add(style);
+            _data.Add(albList);
+
+            return _data;
         }
     }
 }

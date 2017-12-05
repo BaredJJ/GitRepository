@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using DataConnector;
 
@@ -91,7 +92,7 @@ namespace MyMusicBase
         /// 
         /// ///////////////////////////////////////////////////////////
         /// 
-        private static int GetInt<T>(T t)
+        public static int GetInt<T>(T t)
         {
             int n;
             if (!int.TryParse(t.ToString(), out n))
@@ -99,7 +100,7 @@ namespace MyMusicBase
             return n;
         }
 
-        private static DateTime GetData<T>(T t)
+        public static DateTime GetData<T>(T t)
         {
             DateTime date;
             if (!DateTime.TryParse(t.ToString(), out date))
@@ -115,12 +116,14 @@ namespace MyMusicBase
             SqlConnection connection = new SqlConnection(Connection.ConnectionString);
             SqlCommand cmd = new SqlCommand(searchName, connection);
             connection.Open( );
+            cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
             SqlDataReader reader = cmd.ExecuteReader( );
             while (reader.Read( ))
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    temp += reader.GetString(i) + " ";
+                    if (!reader.IsDBNull(i))
+                        temp += reader[i] + "@@@";
                 }
             }
             return temp;
@@ -132,13 +135,15 @@ namespace MyMusicBase
             SqlConnection connection = new SqlConnection(Connection.ConnectionString);
             SqlCommand cmd = new SqlCommand(searchName, connection);
             connection.Open( );
+            cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
             SqlDataReader reader = cmd.ExecuteReader( );
             while (reader.Read( ))
             {
                 string temp = "";
                 for (int i = 0; i < reader.FieldCount; ++i)
                 {
-                    temp += reader.GetString(i) + " ";
+                    if (!reader.IsDBNull(i))
+                        temp += reader[i] + "@@@";
                 }
                 list.Add(temp);
             }

@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DataConnector.Patterns
 {
-    class Foreman
+    public class Foreman
     {
-        private Builder buider;
+        private readonly Builder _buider;
 
         public Foreman(Builder builder)
         {
-            this.buider = builder;
+            _buider = builder;
         }
 
-        public string[] Construct()
+        public List<List<string>> Construct(string option)
         {
-            return buider.Create();
+            return _buider.Create(option);
         }
     }
 }
