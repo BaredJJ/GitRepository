@@ -4,13 +4,13 @@ namespace DataConnector.Patterns
 {
     public class ArtistBuilder:Builder
     {
-        private List<List<string>> _data = null;
+        private List<List<string>> _data;
 
-        private static Artist BuildArtist(string name) => new Artist(MyMusicBase.DataConnector.GetString1("SELECT * FROM Artist WHERE NAME = '" + name + "'"));
+        private static Artist BuildArtist(string name) => new Artist(MyMusicBase.DataConnector.GetString("SELECT * FROM Artist WHERE NAME = '" + name + "'"));
 
         private static List<Albums> BuildAlbumses( int artistId )
         {
-            List<string> albums = MyMusicBase.DataConnector.GetList1("SELECT * FROM Albums WHERE ArtistId = '" + artistId + "'");
+            List<string> albums = MyMusicBase.DataConnector.GetList("SELECT * FROM Albums WHERE ArtistId = '" + artistId + "'");
             List<Albums> albumsList = new List<Albums>(albums.Count);
             for (int i = 0; i < albums.Count; ++i)
             {
@@ -22,7 +22,7 @@ namespace DataConnector.Patterns
         private static List<ArtistStyle> BuildStyleList(int artistId)
         {
             List<string> artistStyle =
-                MyMusicBase.DataConnector.GetList1("SELECT * FROM ArtistStyle WHERE ArtistId = '" + artistId + "'");
+                MyMusicBase.DataConnector.GetList("SELECT * FROM ArtistStyle WHERE ArtistId = '" + artistId + "'");
             List<ArtistStyle> artistStyleList = new List<ArtistStyle>();
             for (int i = 0; i < artistStyle.Count; ++i)
             {
@@ -36,7 +36,7 @@ namespace DataConnector.Patterns
             List<string> styleList = new List<string>();
             for (int i = 0; i < artistStyles.Count; ++i)
             {
-               styleList.Add(new Style(MyMusicBase.DataConnector.GetString1("SELECT * FROM Style WHERE StyleId = '" + artistStyles[i].StyleId + "'")).Name);
+               styleList.Add(new Style(MyMusicBase.DataConnector.GetString("SELECT * FROM Style WHERE StyleId = '" + artistStyles[i].StyleId + "'")).Name);
             }
             return styleList;
         }

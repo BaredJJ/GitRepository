@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DataConnector.Patterns
 {
     public class StyleBuilder:Builder
     {
-        private List<List<string>> _data = null;
+        private List<List<string>> _data;
 
         private static Style BuildStyles(string name ) 
-            => new Style(MyMusicBase.DataConnector.GetString1("SELECT * FROM Style WHERE Name = '" + name + "'"));
+            => new Style(MyMusicBase.DataConnector.GetString("SELECT * FROM Style WHERE Name = '" + name + "'"));
 
         private static List<int> BuildStyleList(int styleId )
         {
             List<string> list =
-                MyMusicBase.DataConnector.GetList1("SELECT * FROM ArtistStyle WHERE StyleId = '" + styleId + "'");
+                MyMusicBase.DataConnector.GetList("SELECT * FROM ArtistStyle WHERE StyleId = '" + styleId + "'");
             List<int> artistId = new List<int>();
             for (int i = 0; i < list.Count; ++i)
             {
@@ -28,7 +27,7 @@ namespace DataConnector.Patterns
             for (int i = 0; i < artistId.Count; ++i)
             {
                 string temp =
-                    MyMusicBase.DataConnector.GetString1("SELECT * FROM Artist WHERE ArtistId = '" + artistId[i] + "'");
+                    MyMusicBase.DataConnector.GetString("SELECT * FROM Artist WHERE ArtistId = '" + artistId[i] + "'");
                 artist.Add(new Artist(temp));
             }
             return artist;

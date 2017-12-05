@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DataConnector;
 
 namespace MyMusicBase
 {
@@ -23,75 +22,7 @@ namespace MyMusicBase
             Connection = connection;
             return connection;
         }
-
-        public static string GetString(string searchString)
-        {
-            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(searchString, connection);
-            connection.Open( );
-            SqlDataReader reader = cmd.ExecuteReader( );
-            string result = "";
-            while (reader.Read( ))
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    result += reader[i] + " ";
-                }
-            }
-            return result;
-        }
-
-        public static int GetId(string searchString, string request)
-        {
-            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(request, connection);
-            connection.Open( );
-            SqlDataReader reader = cmd.ExecuteReader( );
-            int result = -1;
-            while (reader.Read( ))
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    if (reader.GetName(i) == searchString)
-                        result = reader.GetInt32(i);
-                }
-            }
-            return result;
-        }
-
-        public static List<int> GetList(string searchString)
-        {
-            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(searchString, connection);
-            connection.Open( );
-            SqlDataReader reader = cmd.ExecuteReader( );
-            List<int> result = new List<int>( );
-            while (reader.Read( ))
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    result.Add(reader.GetInt32(i));
-                }
-            }
-            return result;
-        }
-
-        public static object GetScalar(string searchString)
-        {
-            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(searchString, connection);
-            connection.Open( );
-            object result = cmd.ExecuteScalar( );
-            connection.Close( );
-            return result;
-        }
-
-
-        ///////////////////////////////////////////////////////////
-        /// //////////////////////////////////////////////////////////
-        /// 
-        /// ///////////////////////////////////////////////////////////
-        /// 
+      
         public static int GetInt<T>(T t)
         {
             int n;
@@ -108,9 +39,7 @@ namespace MyMusicBase
             return date;
         }
 
-        //////////////////////////////////////
-
-        public static string GetString1(string searchName)
+        public static string GetString(string searchName)
         {
             string temp = "";
             SqlConnection connection = new SqlConnection(Connection.ConnectionString);
@@ -126,10 +55,12 @@ namespace MyMusicBase
                         temp += reader[i] + "@@@";
                 }
             }
+            if (temp == "")
+                throw new Exception("In data base don't have that data");
             return temp;
         }
 
-        public static List<string> GetList1(string searchName)
+        public static List<string> GetList(string searchName)
         {
             List<string> list = new List<string>();
             SqlConnection connection = new SqlConnection(Connection.ConnectionString);
@@ -147,6 +78,8 @@ namespace MyMusicBase
                 }
                 list.Add(temp);
             }
+            if (list.Count == 0)
+                throw new Exception("In data base don't have that data");
             return list;
         }
     
