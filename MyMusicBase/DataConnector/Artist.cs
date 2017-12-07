@@ -28,7 +28,7 @@ namespace DataConnector
                 _appearance = MyMusicBase.DataConnector.GetData(result[2]);
                 if (result.Length > 4)
                     _breackUp = MyMusicBase.DataConnector.GetData(result[3]);
-                else _appearance = new DateTime(0,0,0);
+                else _breackUp = new DateTime(1,1,1);
             }
             else throw new Exception("Can't create instance Artist");
         }

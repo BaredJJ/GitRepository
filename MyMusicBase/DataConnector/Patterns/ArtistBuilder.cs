@@ -59,7 +59,7 @@ namespace DataConnector.Patterns
                 List<string> style = BuildStyles(BuildStyleList(name.Id));
 
                 string artString = name.Name + " " + name.Appearance.Year;
-                if (name.BreackUp.Year != 0)
+                if (name.BreackUp.Year != 1)
                     artString += " - " + name.BreackUp.Year;
                 List<string> artList = new List<string>();
                 artList.Add(artString);

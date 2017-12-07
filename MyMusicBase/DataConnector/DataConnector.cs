@@ -11,66 +11,46 @@ namespace MyMusicBase
         //Создание экземпляра класса StringBuilder для подключения к БД
         public static SqlConnectionStringBuilder SqlStringBuilder(string name, string pasword)
         {
-            try
+            var connection = new SqlConnectionStringBuilder
             {
-                var connection = new SqlConnectionStringBuilder
-                {
-                    DataSource = @".\SQLEXPRESS",
-                    InitialCatalog = "MyMusic",
-                    UserID = name,
-                    Password = pasword,
-                    Pooling = true
-                };
-                Connection = connection;
-                return connection;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+                DataSource = @".\SQLEXPRESS",
+                InitialCatalog = "MyMusic",
+                UserID = name,
+                Password = pasword,
+                Pooling = true
+            };
+            Connection = connection;
+            return connection;
         }
       
         public static int GetInt<T>(T t)
         {
-            try
-            {
-                int n;
-                if (!int.TryParse(t.ToString(), out n))
-                    throw new FormatException();//TO DO Обработка события
-                return n;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            int n;
+            if (!int.TryParse(t.ToString(), out n))
+               throw new FormatException();//TO DO Обработка события
+            return n;
         }
 
         public static DateTime GetData<T>(T t)
         {
-            try
-            {
-                DateTime date;
-                if (!DateTime.TryParse(t.ToString(), out date))
-                    throw new FormatException();//TO DO обработчик
-                return date;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+
+            DateTime date;
+            if (!DateTime.TryParse(t.ToString(), out date))
+               throw new FormatException();//TO DO обработчик
+            return date;
         }
 
         public static string GetString(string searchName)
         {
+           string temp = "";
+           SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+           SqlCommand cmd = new SqlCommand(searchName, connection);
             try
             {
-                string temp = "";
-                SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-                SqlCommand cmd = new SqlCommand(searchName, connection);
-                connection.Open( );
+                connection.Open();
                 cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-                SqlDataReader reader = cmd.ExecuteReader( );
-                while (reader.Read( ))
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
@@ -78,25 +58,30 @@ namespace MyMusicBase
                             temp += reader[i] + "@@@";
                     }
                 }
-                return temp;
             }
             catch (Exception e)
             {
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
+            return temp;
         }
 
         public static List<string> GetList(string searchName)
         {
+
+          List<string> list = new List<string>();
+          SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+          SqlCommand cmd = new SqlCommand(searchName, connection);
             try
             {
-                List<string> list = new List<string>();
-                SqlConnection connection = new SqlConnection(Connection.ConnectionString);
-                SqlCommand cmd = new SqlCommand(searchName, connection);
-                connection.Open( );
+                connection.Open();
                 cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-                SqlDataReader reader = cmd.ExecuteReader( );
-                while (reader.Read( ))
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
                     string temp = "";
                     for (int i = 0; i < reader.FieldCount; ++i)
@@ -106,12 +91,16 @@ namespace MyMusicBase
                     }
                     list.Add(temp);
                 }
-                return list;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
+            return list;
         }
     
     }
