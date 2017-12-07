@@ -12,7 +12,7 @@ namespace MyMusicBase
         public StartPage( )
         {
             InitializeComponent( );
-            new Presenter(this);
+            new Presenter(this, new MessageService());
         }
 
         public event EventHandler startPageEvent = null;

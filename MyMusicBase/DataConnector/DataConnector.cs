@@ -27,7 +27,7 @@ namespace MyMusicBase
         {
             int n;
             if (!int.TryParse(t.ToString(), out n))
-               throw new FormatException();//TO DO Обработка события
+               throw new FormatException();
             return n;
         }
 
@@ -36,7 +36,7 @@ namespace MyMusicBase
 
             DateTime date;
             if (!DateTime.TryParse(t.ToString(), out date))
-               throw new FormatException();//TO DO обработчик
+               throw new FormatException();
             return date;
         }
 
@@ -59,9 +59,9 @@ namespace MyMusicBase
                     }
                 }
             }
-            catch (Exception e)
+            catch
             {
-                throw;
+                throw new Exception();
             }
             finally
             {
@@ -92,9 +92,10 @@ namespace MyMusicBase
                     list.Add(temp);
                 }
             }
-            catch (Exception)
+            catch
             {
-                throw;
+                
+                throw new Exception( );
             }
             finally
             {

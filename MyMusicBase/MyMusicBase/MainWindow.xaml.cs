@@ -12,7 +12,7 @@ namespace MyMusicBase
         public MainWindow( )
         {
             InitializeComponent( );
-            new Presenter(this);
+            new Presenter(this, new MessageService());
         }
 
         public event EventHandler mainWindowEvent = null;

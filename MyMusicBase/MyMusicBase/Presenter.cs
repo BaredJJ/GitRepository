@@ -8,35 +8,38 @@ namespace MyMusicBase
 {
     public class Presenter
     {
-        private MainWindow mainWindow;
-        private StartPage startPageWindow;
+        private readonly MainWindow _mainWindow;
+        private readonly StartPage _startPageWindow;
+        private readonly IMessageService _messageService;
 
-        public Presenter(MainWindow window)
+        public Presenter(MainWindow window, IMessageService message)
         {
-            mainWindow = window;
-            mainWindow.mainWindowEvent += MainWindow_mainWindowEvent;
+            _mainWindow = window;
+            _mainWindow.mainWindowEvent += MainWindow_mainWindowEvent;
+            _messageService = message;
         }
 
-        public Presenter(StartPage startPage)
+        public Presenter(StartPage startPage, IMessageService message)
         {
-            startPageWindow = startPage;
-            startPageWindow.startPageEvent += StartPageWindow_startPageEvent;
+            _startPageWindow = startPage;
+            _startPageWindow.startPageEvent += StartPageWindow_startPageEvent;
+            _messageService = message;
         }
 
         private void MainWindow_mainWindowEvent(object sender, EventArgs e)
         {
-            SqlConnection instance = new SqlConnection(DataConnector.SqlStringBuilder(mainWindow.UserName.Text, mainWindow.Pasword.Password).ConnectionString);
+            SqlConnection instance = new SqlConnection(DataConnector.SqlStringBuilder(_mainWindow.UserName.Text, _mainWindow.Pasword.Password).ConnectionString);
             try
             {
                 instance.Open( );
                 Window startPage = new StartPage( );
                 instance.Close( );
                 startPage.Show( );
-                mainWindow.LoginWindow.Close( );
+                _mainWindow.LoginWindow.Close( );
             }
             catch (Exception)
             {
-                MessageBox.Show("Check you password or login");
+                _messageService.ShowError("Проверьте имя пользлвателя и пароль. Или возможно отсудствует доступ к базе данных.");
             }
             finally
             {
@@ -48,23 +51,23 @@ namespace MyMusicBase
         {
             try
             {
-                if (startPageWindow.SearchBox.Text != "")
+                if (_startPageWindow.SearchBox.Text != "")
                 {
-                    startPageWindow.ArtistText.Text = "";
-                    startPageWindow.AlbumText.Text = "";
-                    startPageWindow.StyleText.Text = "";
+                    _startPageWindow.ArtistText.Text = "";
+                    _startPageWindow.AlbumText.Text = "";
+                    _startPageWindow.StyleText.Text = "";
                     List<List<string>> list = new List<List<string>>( );
-                    if (startPageWindow.ChoiseOfSearch.SelectedIndex == 00)
+                    if (_startPageWindow.ChoiseOfSearch.SelectedIndex == 00)
                     {
-                        list = new Foreman(new ArtistBuilder( )).Construct(startPageWindow.SearchBox.Text);
+                        list = new Foreman(new ArtistBuilder( )).Construct(_startPageWindow.SearchBox.Text);
                     }
-                    else if (startPageWindow.ChoiseOfSearch.SelectedIndex == 1)
+                    else if (_startPageWindow.ChoiseOfSearch.SelectedIndex == 1)
                     {
-                        list = new Foreman(new StyleBuilder( )).Construct(startPageWindow.SearchBox.Text);
+                        list = new Foreman(new StyleBuilder( )).Construct(_startPageWindow.SearchBox.Text);
                     }
-                    else if (startPageWindow.ChoiseOfSearch.SelectedIndex == 2)
+                    else if (_startPageWindow.ChoiseOfSearch.SelectedIndex == 2)
                     {
-                        list = new Foreman(new AlbumsBuilder( )).Construct(startPageWindow.SearchBox.Text);
+                        list = new Foreman(new AlbumsBuilder( )).Construct(_startPageWindow.SearchBox.Text);
                     }
                     if (list.Count != 0)
                         for (int i = 0; i < list.Count; i++)
@@ -72,22 +75,21 @@ namespace MyMusicBase
                             for (int j = 0; j < list[i].Count; j++)
                             {
                                 if (i == 0)
-                                    startPageWindow.ArtistText.Text += list[i][j] + Environment.NewLine;
+                                    _startPageWindow.ArtistText.Text += list[i][j] + Environment.NewLine;
                                 else if (i == 1)
-                                    startPageWindow.StyleText.Text += list[i][j] + Environment.NewLine;
+                                    _startPageWindow.StyleText.Text += list[i][j] + Environment.NewLine;
                                 else if (i == 2)
-                                    startPageWindow.AlbumText.Text += list[i][j] + Environment.NewLine;
+                                    _startPageWindow.AlbumText.Text += list[i][j] + Environment.NewLine;
                             }
                         }
                     else
-                        MessageBox.Show("Мы не нашли, то что вы ищите в базе", "Сообщение", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
+                        _messageService.ShowMessage("Мы не нашли, то что вы ищите в базе");
                 }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageService.ShowError(ex.Message);
             }
         }
     }
