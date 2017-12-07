@@ -15,17 +15,17 @@ namespace MyMusicBase
             new Presenter(this, new MessageService());
         }
 
-        public event EventHandler startPageEvent = null;
+        public event EventHandler StartPageEvent;
+        public event EventHandler AddEvent;
 
         private void Search_OnClick(object sender, RoutedEventArgs e)
         {
-            startPageEvent.Invoke(sender, e);
+            StartPageEvent?.Invoke(sender, e);
         }
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
-            //TO DO Реализация добавления в БД
-            throw new System.NotImplementedException();
+            AddEvent?.Invoke(sender, e);
         }
     }
 }

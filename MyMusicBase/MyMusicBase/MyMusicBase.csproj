@@ -55,11 +55,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddAlbums.xaml.cs">
+      <DependentUpon>AddAlbums.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddArtist.xaml.cs">
+      <DependentUpon>AddArtist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddStyle.xaml.cs">
+      <DependentUpon>AddStyle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageService.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddAlbums.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddArtist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

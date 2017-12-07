@@ -24,6 +24,6 @@
         <TextBox  Name ="UserName"  Grid.Row="1" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100"></TextBox>
         <TextBlock Grid.Row="2" Grid.Column="1" Text ="Pasword" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"></TextBlock>
         <PasswordBox Name ="Pasword"  Grid.Row="3" Grid.Column = "1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100"></PasswordBox>
-        <Button Name = "UserConfurum" Click="User_Confurum_OnClick" Grid.Column="1" Grid.Row="4">Confurum</Button>
+        <Button Name = "UserConfurum" Click="User_Confurum_OnClick" IsDefault="True" Grid.Column="1" Grid.Row="4">Confurum</Button>
     </Grid>
 </Window>

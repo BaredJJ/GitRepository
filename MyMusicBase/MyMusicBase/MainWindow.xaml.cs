@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Windows;
 
 namespace MyMusicBase
@@ -15,11 +14,11 @@ namespace MyMusicBase
             new Presenter(this, new MessageService());
         }
 
-        public event EventHandler mainWindowEvent = null;
+        public event EventHandler MainWindowEvent;
 
         private void User_Confurum_OnClick(object sender, RoutedEventArgs e)
         {
-            mainWindowEvent.Invoke(sender, e);
+            MainWindowEvent?.Invoke(sender, e);
             //Подключение к базе данных          
         }
     }

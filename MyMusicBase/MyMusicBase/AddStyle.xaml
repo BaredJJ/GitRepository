@@ -1,0 +1,38 @@
+﻿<Window x:Class="MyMusicBase.AddStyle"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyMusicBase"
+        mc:Ignorable="d"
+        Title="AddStyle" Height="200" Width="300" Name ="Style">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Column="1" Grid.Row="1" Margin="7" Text="Жанры" TextAlignment="Center"/>
+        <TextBox Name="StyleBox" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Margin="5" TextWrapping="Wrap"/>
+        
+        <Grid Grid.Column="1" Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name ="StyleButton" Grid.Column="1" Grid.ColumnSpan="2" Margin="6" Background="DarkGoldenrod" Click="StyleButton_OnClick">Add</Button>
+        </Grid>
+    </Grid>
+</Window>

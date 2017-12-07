@@ -6,7 +6,7 @@ namespace MyMusicBase
     public interface IMessageService
     {
         void ShowMessage(string message);
-        void ShowExclametion(string exclametion);
+        MessageBoxResult ShowExclametion(string exclemention);
         void ShowError(string error);
     }
 
@@ -17,9 +17,9 @@ namespace MyMusicBase
             MessageBox.Show(message, "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        public void ShowExclametion(string exclamation)
+        public MessageBoxResult ShowExclametion(string exclamation)
         {
-            MessageBox.Show(exclamation, "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            return MessageBox.Show(exclamation, "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
         }
 
         public void ShowError(string error)
