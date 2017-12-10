@@ -11,7 +11,7 @@ namespace MyMusicBase
         public AddAlbums( )
         {
             InitializeComponent( );
-            new Presenter(this, new MessageService());
+            new Presenter(this);
         }
 
         public event EventHandler AddNewAlbum;

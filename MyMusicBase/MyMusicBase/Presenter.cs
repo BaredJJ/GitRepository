@@ -13,51 +13,44 @@ namespace MyMusicBase
         private readonly AddArtist _addArtist;
         private readonly AddAlbums _addAlbums;
         private readonly AddStyle _addStyle;
-        private readonly IMessageService _messageService;
+        private readonly IMessageService _messageService = new MessageService();
 
         #region Конструкторы
-        public Presenter(MainWindow window, IMessageService message)
+        public Presenter(MainWindow window)
         {
             _mainWindow = window;
             _mainWindow.MainWindowEvent += MainWindow_mainWindowEvent;
-            _messageService = message;
         }
 
-        public Presenter(StartPage startPage, IMessageService message)
+        public Presenter(StartPage startPage)
         {
             _startPageWindow = startPage;
             _startPageWindow.StartPageEvent += StartPageWindow_startPageEvent;
             _startPageWindow.AddEvent += _startPageWindow_AddEvent;
-            _messageService = message;
         }
 
-        public Presenter(AddArtist addArtist, IMessageService message)
+        public Presenter(AddArtist addArtist)
         {
             _addArtist = addArtist;
             _addArtist.NewGroup += _addArtist_NewGroup;
-            _messageService = message;
         }
 
-        public Presenter(AddAlbums addAlbums, IMessageService message)
+        public Presenter(AddAlbums addAlbums)
         {
             _addAlbums = addAlbums;
             _addAlbums.AddNewAlbum += _addAlbums_AddNewAlbum;
-            _messageService = message;
         }
 
-        public Presenter(AddStyle addStyle, IMessageService message)
+        public Presenter(AddStyle addStyle)
         {
             _addStyle = addStyle;
             _addStyle.AddNewStyle += _addStyle_AddNewStyle;
-            _messageService = message;
         }
         #endregion
 
         #region Добавление в БД
         private void _addStyle_AddNewStyle(object sender, EventArgs e)
         {
-            _addStyle.Close();
-            _startPageWindow.Show();
             _addStyle.Close();
         }
 
@@ -79,8 +72,33 @@ namespace MyMusicBase
         private void _addArtist_NewGroup(object sender, EventArgs e)
         {
             Window albums = new AddAlbums();
-            albums.Show();
-            _addArtist.Close();
+            if (_addArtist.ArtistBox.Text != "" && _addArtist.AppeareanceBox.Text != "")
+            {
+                try
+                {
+                    DataConnector.GetData(_addArtist.AppeareanceBox.Text);
+                    string result = _addArtist.ArtistBox.Text + "@@@" + _addArtist.AppeareanceBox.Text;
+                    if (_addArtist.BreackUpBox.Text != "")
+                    {
+                        try
+                        {
+                            DataConnector.GetData(_addArtist.BreackUpBox.Text);
+                            result += "@@@" + _addArtist.BreackUpBox.Text;
+                        }
+                        catch (Exception exception)
+                        {
+                            throw;
+                        }
+                    }
+                    albums.Show( );
+                    _addArtist.Close( );
+                }
+                catch (Exception exception)
+                {
+                    _messageService.ShowError(exception.Message);
+                }
+            }
+            else _messageService.ShowMessage("Вы не ввели обязательные данные");
         }
         #endregion
 

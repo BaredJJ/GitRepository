@@ -6,11 +6,12 @@ namespace MyMusicBase
     /// <summary>
     /// Логика взаимодействия для AddStyle.xaml
     /// </summary>
-    public partial class AddStyle : Window
+    public partial class AddStyle
     {
         public AddStyle( )
         {
             InitializeComponent( );
+            new Presenter(this);
         }
 
         public event EventHandler AddNewStyle;
