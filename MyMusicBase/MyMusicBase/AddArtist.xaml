@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="AddArtist" Height="200" Width="300" Name="Artist">
+        Title="Еще один любичик" Height="250" Width="300" Name="Artist">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -23,12 +23,12 @@
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="5" TextAlignment="Center" Text="Исполнитель"/>
-        <TextBox Name="ArtistBox" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="5" TextAlignment="Left"/>
-        <TextBlock Grid.Column="1" Grid.Row="3" Margin="5" TextAlignment="Center" Text="Начло карьеры"/>
-        <TextBlock Grid.Column="3" Grid.Row="3" Margin="5" TextAlignment="Center" Text="Конец карьеры"/>
-        <TextBox Name="AppeareanceBox"  Grid.Column="1" Grid.Row="4" Margin="5" TextAlignment="Left"/>
-        <TextBox Name ="BreackUpBox"  Grid.Column="3" Grid.Row="4" Margin="5" TextAlignment="Left"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="5" TextAlignment="Center" FontSize="19" FontStyle="Oblique" FontWeight="Black" Text="Исполнитель"/>
+        <TextBox Name="ArtistBox" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="5" FontSize="17" FontWeight="DemiBold" TextAlignment="Left"/>
+        <TextBlock Grid.Column="1" Grid.Row="3" Margin="5" TextAlignment="Center" FontSize="13" FontStyle="Oblique" FontWeight="Black" Text="Начло карьеры"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Margin="5" TextAlignment="Center" FontSize="13" FontStyle="Oblique" FontWeight="Black" Text="Конец карьеры"/>
+        <TextBox Name="AppeareanceBox"  Grid.Column="1" Grid.Row="4" Margin="5" FontSize="17" FontWeight="DemiBold" TextAlignment="Left"/>
+        <TextBox Name ="BreackUpBox"  Grid.Column="3" Grid.Row="4" Margin="5" FontSize="17" FontWeight="DemiBold" TextAlignment="Left"/>
         
         <Grid Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
@@ -36,7 +36,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Background="LightCoral" Margin="5" Name="GroupButton" Click="AddGroup_OnClick">Add</Button>
+            <Button Grid.Column="1" Background="LightCoral" Margin="5" FontSize="16" FontStyle="Italic" FontWeight="DemiBold" Name="GroupButton" Click="AddGroup_OnClick">Add</Button>
         </Grid>
     </Grid>
 </Window>

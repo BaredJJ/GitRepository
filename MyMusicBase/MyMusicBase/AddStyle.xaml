@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyMusicBase"
         mc:Ignorable="d"
-        Title="AddStyle" Height="200" Width="300" Name ="Style">
+        Title="Стилистика" Height="250" Width="300" Name ="Style">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -21,9 +21,9 @@
             <RowDefinition/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Column="1" Grid.Row="1" Margin="7" Text="Жанры" TextAlignment="Center"/>
-        <TextBox Name="StyleBox" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Margin="5" TextWrapping="Wrap"/>
+
+        <TextBlock Grid.Column="1" Grid.Row="1" Margin="5" FontSize="19" FontStyle="Oblique" FontWeight="Black" Text="Жанры" TextAlignment="Center"/>
+        <TextBox Name="StyleBox" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Margin="5" FontSize="17" FontWeight="DemiBold" TextWrapping="Wrap"/>
         
         <Grid Grid.Column="1" Grid.Row="4">
             <Grid.ColumnDefinitions>
@@ -32,7 +32,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name ="StyleButton" Grid.Column="1" Grid.ColumnSpan="2" Margin="6" Background="DarkGoldenrod" Click="StyleButton_OnClick">Add</Button>
+            <Button Name ="StyleButton" Grid.Column="1" Grid.ColumnSpan="2" Margin="6" FontSize="16" FontStyle="Italic" FontWeight="DemiBold" Background="DarkGoldenrod" Click="StyleButton_OnClick">Add</Button>
         </Grid>
     </Grid>
 </Window>

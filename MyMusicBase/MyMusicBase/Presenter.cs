@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Windows;
 using DataConnector.Patterns;
 
@@ -14,6 +15,7 @@ namespace MyMusicBase
         private readonly AddAlbums _addAlbums;
         private readonly AddStyle _addStyle;
         private readonly IMessageService _messageService = new MessageService();
+        private static List<string> albumsList = new List<string>( );
 
         #region Конструкторы
         public Presenter(MainWindow window)
@@ -51,45 +53,57 @@ namespace MyMusicBase
         #region Добавление в БД
         private void _addStyle_AddNewStyle(object sender, EventArgs e)
         {
-            _addStyle.Close();
+            if (_addStyle.StyleBox.Text != "")
+            {
+                string[] temp = Regex.Split(_addStyle.StyleBox.Text, @"\b[!,#,$,%,',(,),*,+,\.,/,:,;,<,=,>,?,@,[,\\,\],^,_,{,},|]+\s*|\b\s{2,}");
+                _addStyle.Close( );
+            }
+            else _messageService.ShowMessage("Вы не ввели ни одного стиля");
         }
 
         private void _addAlbums_AddNewAlbum(object sender, EventArgs e)
         {
-            while (true)
+            if (_addAlbums.AlbumBox.Text != "" && _addAlbums.AlbumDateBox.Text != "")
             {
-                MessageBoxResult result = _messageService.ShowExclametion("Вы ввели все альбомы?");
-                if (result == MessageBoxResult.Yes)
+                try
                 {
-                    Window style = new AddStyle();
-                    style.Show();
-                    _addAlbums.Close();
-                    break;
+                    string temp = _addAlbums.AlbumBox.Text + "@@@" +
+                                  DataConnector.GetData(_addAlbums.AlbumDateBox.Text);
+                    albumsList.Add(temp);
+                    MessageBoxResult result = _messageService.ShowExclametion("Вы ввели все альбомы?");
+                    _addAlbums.Close( );
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Window style = new AddStyle( );
+                        style.Show( );
+                    }
+                    else
+                    {
+                        Window albums = new AddAlbums( );
+                        albums.Show( );
+                    }
+                }
+                catch (Exception exception)
+                {
+                    _messageService.ShowError(exception.Message);
                 }
             }
+            else _messageService.ShowMessage("Вы не ввели обязательные данные");
         }
 
         private void _addArtist_NewGroup(object sender, EventArgs e)
         {
-            Window albums = new AddAlbums();
             if (_addArtist.ArtistBox.Text != "" && _addArtist.AppeareanceBox.Text != "")
             {
                 try
                 {
-                    DataConnector.GetData(_addArtist.AppeareanceBox.Text);
-                    string result = _addArtist.ArtistBox.Text + "@@@" + _addArtist.AppeareanceBox.Text;
+                    string result = _addArtist.ArtistBox.Text + "@@@" + DataConnector.GetData(_addArtist.AppeareanceBox.Text);
                     if (_addArtist.BreackUpBox.Text != "")
                     {
-                        try
-                        {
-                            DataConnector.GetData(_addArtist.BreackUpBox.Text);
-                            result += "@@@" + _addArtist.BreackUpBox.Text;
-                        }
-                        catch (Exception exception)
-                        {
-                            throw;
-                        }
+                        result += "@@@" + DataConnector.GetData(_addArtist.BreackUpBox.Text);
+
                     }
+                    Window albums = new AddAlbums( );
                     albums.Show( );
                     _addArtist.Close( );
                 }

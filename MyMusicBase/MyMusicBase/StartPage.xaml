@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyMusicBase"
         mc:Ignorable="d"
-        Title="StartPage" Height="300" Width="600">
+        Title="Чек поинт в музыке" Height="300" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
@@ -36,18 +36,18 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Жанр" Margin="2" TextAlignment="Center"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="Исполнитель" Margin="2" TextAlignment="Center"/>
-            <TextBlock Grid.Column="2" Grid.Row="0" Text="Релиз" Margin="2" TextAlignment="Center"/>
-            
-            <TextBlock Name ="StyleText"  Grid.Column="0" Grid.Row="1" Margin="5" TextWrapping="Wrap" Background="AliceBlue"/>
-            <TextBlock Name ="ArtistText"  Grid.Column="1" Grid.Row="1" Margin="5" TextWrapping="Wrap" Background="Azure"/>
-            <TextBlock Name ="AlbumText"  Grid.Column="2" Grid.Row="1" Margin="5" TextWrapping="Wrap" Background="Beige"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Жанр" Margin="2" FontSize="14" FontStyle="Oblique" FontWeight="DemiBold" TextAlignment="Center"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="Исполнитель" Margin="2" FontSize="14" FontStyle="Oblique" FontWeight="DemiBold" TextAlignment="Center"/>
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="Релиз" Margin="2" FontSize="14" FontStyle="Oblique" FontWeight="DemiBold" TextAlignment="Center"/>
+
+            <TextBlock Name ="StyleText"  Grid.Column="0" Grid.Row="1" Margin="5" FontSize="14" FontStyle="Italic" FontWeight="DemiBold" TextWrapping="Wrap" Background="AliceBlue"/>
+            <TextBlock Name ="ArtistText"  Grid.Column="1" Grid.Row="1" Margin="5" FontSize="14" FontStyle="Italic" FontWeight="DemiBold" TextWrapping="Wrap" Background="Azure"/>
+            <TextBlock Name ="AlbumText"  Grid.Column="2" Grid.Row="1" Margin="5" FontSize="14" FontStyle="Italic" FontWeight="DemiBold" TextWrapping="Wrap" Background="Beige"/>
 
             
         </Grid>
 
-        <Button Name ="AddButton"  Grid.Row="2" Grid.Column="0" Margin="5" Click="AddButton_OnClick">Add</Button>
+        <Button Name ="AddButton"  Grid.Row="2" Grid.Column="0" Margin="3" FontSize="14" FontStyle="Italic" FontWeight="DemiBold" Content="Add" Click="AddButton_OnClick"/>
         <Grid  Grid.Row="5" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -56,7 +56,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name ="Search" Grid.Column="2" Click="Search_OnClick" Margin="5">Search</Button>
+            <Button Name ="Search" Grid.Column="2" Click="Search_OnClick" Margin="3" FontSize="14" FontStyle="Italic" FontWeight="DemiBold" Content="Search"/>
         </Grid>
 
     </Grid>
