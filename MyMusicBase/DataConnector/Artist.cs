@@ -18,6 +18,17 @@ namespace DataConnector
         public Artist()
         { }
 
+        public Artist(string name, DateTime appearance)
+        {
+            _name = name;
+            _appearance = appearance;
+        }
+
+        public Artist(string name, DateTime appearance, DateTime breackUp):this(name, appearance)
+        {
+            _breackUp = breackUp;
+        }
+
         public Artist(string artist)
         {
             string[] result = Regex.Split(artist, @"@@@");

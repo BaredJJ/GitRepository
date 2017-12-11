@@ -16,6 +16,13 @@ namespace DataConnector
         public Albums()
         { }
 
+        public Albums(int artistId, string name, DateTime dateRelease)
+        {
+            _artistId = artistId;
+            _name = name;
+            _dateRelease = dateRelease;
+        }
+
         public Albums(string albums)
         {
             string[] temp = Regex.Split(albums, @"@@@");

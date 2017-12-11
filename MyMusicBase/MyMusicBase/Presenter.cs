@@ -97,15 +97,33 @@ namespace MyMusicBase
             {
                 try
                 {
-                    string result = _addArtist.ArtistBox.Text + "@@@" + DataConnector.GetData(_addArtist.AppeareanceBox.Text);
-                    if (_addArtist.BreackUpBox.Text != "")
+                    if (AddDataBase.AddArtist(_addArtist.ArtistBox.Text, _addArtist.AppeareanceBox.Text,
+                            _addArtist.BreackUpBox.Text) == -1)
                     {
-                        result += "@@@" + DataConnector.GetData(_addArtist.BreackUpBox.Text);
+                        _messageService.ShowMessage("Такой исполнитель уже есть в базе");
+                        _addArtist.ArtistBox.Clear();
+                        _addArtist.AppeareanceBox.Clear();
+                        _addArtist.BreackUpBox.Clear();
+                        //Window albums = new AddAlbums( );
+                        //albums.Show( );
 
                     }
-                    Window albums = new AddAlbums( );
-                    albums.Show( );
-                    _addArtist.Close( );
+                    else
+                    {
+                        _messageService.ShowMessage("Исолнитель успешно добвален в базу");
+                        _addArtist.Close( );
+                        Window albums = new AddAlbums( );
+                        albums.Show( );
+                    }
+                    //string result = _addArtist.ArtistBox.Text + "@@@" + DataConnector.GetData(_addArtist.AppeareanceBox.Text);
+                    //if (_addArtist.BreackUpBox.Text != "")
+                    //{
+                    //    result += "@@@" + DataConnector.GetData(_addArtist.BreackUpBox.Text);
+
+                    //}
+                    //Window albums = new AddAlbums( );
+                    //albums.Show( );
+                    //_addArtist.Close( );
                 }
                 catch (Exception exception)
                 {
@@ -125,9 +143,9 @@ namespace MyMusicBase
             {
                 instance.Open( );
                 Window startPage = new StartPage( );
+                _mainWindow.LoginWindow.Close( );
                 instance.Close( );
                 startPage.Show( );
-                _mainWindow.LoginWindow.Close( );
             }
             catch (Exception)
             {

@@ -45,6 +45,7 @@
     <Compile Include="Artist.cs" />
     <Compile Include="ArtistStyle.cs" />
     <Compile Include="DataConnector.cs" />
+    <Compile Include="Patterns\AddDataBase.cs" />
     <Compile Include="Patterns\AlbumsBuilder.cs" />
     <Compile Include="Patterns\ArtistBuilder.cs" />
     <Compile Include="Patterns\Builder.cs" />
