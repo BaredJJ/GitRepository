@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace DataConnector
 {
-    class Artist
+    public class Artist
     {
         private readonly int _id;
         private readonly string _name;
@@ -22,6 +22,7 @@ namespace DataConnector
         {
             _name = name;
             _appearance = appearance;
+            _breackUp = new DateTime(1,1,1);
         }
 
         public Artist(string name, DateTime appearance, DateTime breackUp):this(name, appearance)

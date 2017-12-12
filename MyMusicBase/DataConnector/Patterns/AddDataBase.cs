@@ -11,6 +11,7 @@ namespace DataConnector.Patterns
             ArtistStyle[] array = new ArtistStyle[name.Length];
             for (int i = 0; i < array.Length; i++)
             {
+                array[i] = new ArtistStyle();
                 array[i].ArtistId = artistId;
                 if (IsExistence("SELECT * FROM Style WHERE NAME = '" + name[i] + "'") == 1)
                 {
@@ -18,17 +19,28 @@ namespace DataConnector.Patterns
                 }
                 else
                 {
-                    //TODO добавление в БД нового стиля и запись в массив ARTISTStyle значения SyleID
+                    MyMusicBase.DataConnector.AddBase("INSERT INTO Style (Name) VALUES ('" + name[i] + "');");
+                    IsExistence("SELECT * FROM Style WHERE NAME = '" + name[i] + "'");
+                    array[i].StyleId = GetStyle( ).StyleId;
+                    //добавление в БД нового стиля и запись в массив ARTISTStyle значения SyleID
                 }
             }
-            //TODO добавление в таблицу ArtistStyle
+            for (int i = 0; i < array.Length; i++)//добавление в таблицу ArtistStyle
+            {
+                string str = "INSERT INTO ArtistStyle (ArtistId, StyleId) VALUES ('" + array[i].ArtistId + "', '" +
+                             array[i].StyleId + "');";
+                MyMusicBase.DataConnector.AddBase(str);
+            }
+
         }
 
         public static void AddAlbum(string name, string dateRelease, int artistId)
         {
             DateTime temp = MyMusicBase.DataConnector.GetData(dateRelease);
             Albums instance = new Albums(artistId, name, temp);
-            //TODO добавить запись в БД
+            string str = "INSERT INTO Albums (ArtistId, Name, DateRelease) VALUES ('" + instance.ArtistId + "', '" + instance.Name + "', '" +
+                         instance.DateRelease + "');";
+            MyMusicBase.DataConnector.AddBase(str);//добавить запись в БД
         }
 
         public static int AddArtist(string name, string appereance, string breackUp)
@@ -46,7 +58,12 @@ namespace DataConnector.Patterns
                     else throw new Exception("Дата начала не может быть больше даты окончания");
                 }
                 else instance = new Artist(name, appereanceTime);
-                //TODO добавить запись в БД
+                string str = "INSERT INTO Artist (Name, Appearance, BreackUp) VALUES ('" + instance.Name + "', '" +//Создание строки добваления в БД
+                             instance.Appearance + "'";
+                if (instance.BreackUp.Year != 1)
+                    str += ", '" + instance.BreackUp + "');";
+                else str += ");";
+                MyMusicBase.DataConnector.AddBase(str);                        //запись в БД
                 IsExistence("SELECT * FROM Artist WHERE NAME = '" + name + "'");
                 n = GetArtist().Id;
             }

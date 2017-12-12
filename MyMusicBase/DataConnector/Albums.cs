@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace DataConnector
 {
-    class Albums
+    public class Albums
     {
         private int _artistId;
         private string _name;

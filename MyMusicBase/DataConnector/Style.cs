@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace DataConnector
 {
-    class Style
+    public class Style
     {
         private int _styleId;
         private string _name;

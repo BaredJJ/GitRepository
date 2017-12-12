@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using DataConnector;
 
 namespace MyMusicBase
 {
@@ -40,6 +41,7 @@ namespace MyMusicBase
             return date;
         }
 
+        #region Чтение из БД
         public static string GetString(string searchName)
         {
            string temp = "";
@@ -102,6 +104,29 @@ namespace MyMusicBase
                 connection.Close();
             }
             return list;
+        }
+#endregion 
+
+        public static void AddBase(string addString)
+        {
+            SqlConnection connection = new SqlConnection(Connection.ConnectionString);
+            try
+            {
+                connection.Open( );
+                SqlCommand cmd = connection.CreateCommand( );
+                //cmd.Transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+                cmd.CommandText = addString;
+                cmd.ExecuteNonQuery( );
+            }
+            catch
+            {
+
+                throw new Exception( );
+            }
+            finally
+            {
+                connection.Close( );
+            }
         }
     
     }

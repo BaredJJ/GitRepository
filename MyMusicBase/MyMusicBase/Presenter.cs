@@ -15,7 +15,8 @@ namespace MyMusicBase
         private readonly AddAlbums _addAlbums;
         private readonly AddStyle _addStyle;
         private readonly IMessageService _messageService = new MessageService();
-        private static List<string> albumsList = new List<string>( );
+
+        private static int _id;
 
         #region Конструкторы
         public Presenter(MainWindow window)
@@ -51,25 +52,24 @@ namespace MyMusicBase
         #endregion
 
         #region Добавление в БД
-        private void _addStyle_AddNewStyle(object sender, EventArgs e)
+        private void _addStyle_AddNewStyle(object sender, EventArgs e)//Добавление стилей исполнителя
         {
             if (_addStyle.StyleBox.Text != "")
             {
                 string[] temp = Regex.Split(_addStyle.StyleBox.Text, @"\b[!,#,$,%,',(,),*,+,\.,/,:,;,<,=,>,?,@,[,\\,\],^,_,{,},|]+\s*|\b\s{2,}");
+                AddDataBase.AddStyle(_id, temp);
                 _addStyle.Close( );
             }
             else _messageService.ShowMessage("Вы не ввели ни одного стиля");
         }
 
-        private void _addAlbums_AddNewAlbum(object sender, EventArgs e)
+        private void _addAlbums_AddNewAlbum(object sender, EventArgs e)//Добавление новых альбомов
         {
             if (_addAlbums.AlbumBox.Text != "" && _addAlbums.AlbumDateBox.Text != "")
             {
                 try
                 {
-                    string temp = _addAlbums.AlbumBox.Text + "@@@" +
-                                  DataConnector.GetData(_addAlbums.AlbumDateBox.Text);
-                    albumsList.Add(temp);
+                    AddDataBase.AddAlbum(_addAlbums.AlbumBox.Text, _addAlbums.AlbumDateBox.Text, _id);
                     MessageBoxResult result = _messageService.ShowExclametion("Вы ввели все альбомы?");
                     _addAlbums.Close( );
                     if (result == MessageBoxResult.Yes)
@@ -91,21 +91,20 @@ namespace MyMusicBase
             else _messageService.ShowMessage("Вы не ввели обязательные данные");
         }
 
-        private void _addArtist_NewGroup(object sender, EventArgs e)
+        private void _addArtist_NewGroup(object sender, EventArgs e)//Добавление нового артиста
         {
             if (_addArtist.ArtistBox.Text != "" && _addArtist.AppeareanceBox.Text != "")
             {
                 try
                 {
-                    if (AddDataBase.AddArtist(_addArtist.ArtistBox.Text, _addArtist.AppeareanceBox.Text,
-                            _addArtist.BreackUpBox.Text) == -1)
+                    _id = AddDataBase.AddArtist(_addArtist.ArtistBox.Text, _addArtist.AppeareanceBox.Text,
+                        _addArtist.BreackUpBox.Text);
+                    if ( _id == -1)
                     {
                         _messageService.ShowMessage("Такой исполнитель уже есть в базе");
                         _addArtist.ArtistBox.Clear();
                         _addArtist.AppeareanceBox.Clear();
                         _addArtist.BreackUpBox.Clear();
-                        //Window albums = new AddAlbums( );
-                        //albums.Show( );
 
                     }
                     else
@@ -115,15 +114,6 @@ namespace MyMusicBase
                         Window albums = new AddAlbums( );
                         albums.Show( );
                     }
-                    //string result = _addArtist.ArtistBox.Text + "@@@" + DataConnector.GetData(_addArtist.AppeareanceBox.Text);
-                    //if (_addArtist.BreackUpBox.Text != "")
-                    //{
-                    //    result += "@@@" + DataConnector.GetData(_addArtist.BreackUpBox.Text);
-
-                    //}
-                    //Window albums = new AddAlbums( );
-                    //albums.Show( );
-                    //_addArtist.Close( );
                 }
                 catch (Exception exception)
                 {
@@ -144,7 +134,7 @@ namespace MyMusicBase
                 instance.Open( );
                 Window startPage = new StartPage( );
                 _mainWindow.LoginWindow.Close( );
-                instance.Close( );
+                //instance.Close( );
                 startPage.Show( );
             }
             catch (Exception)
